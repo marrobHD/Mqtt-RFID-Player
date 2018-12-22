@@ -1,4 +1,4 @@
-# MqTT RFID Music Player
+# 🎶MqTT RFID Music Player🎶
 
 ## About
 
