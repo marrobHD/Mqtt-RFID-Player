@@ -1,0 +1,73 @@
+- id: mqtt_rfid_rst
+  alias: Mqtt RFID Music Player RST
+  trigger:
+  - payload: '2446736431'
+    platform: mqtt
+    topic: /technight/Interface/PlayBox
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
+  action:
+  - data:
+      entity_id: input_number.musikbox_rfid_resume
+      value: '0'
+    service: input_number.set_value
+- id: mqtt_rfid_tag1
+  alias: Mqtt RFID Music Player TAG1
+  trigger:
+  - payload: '2045822752'
+    platform: mqtt
+    topic: /technight/Interface/PlayBox
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
+  action:
+  - data: {}
+    service: script.mqtt_rfid_player_tag1_test0
+  - data: {}
+    service: script.mqtt_rfid_player_tag1_test1
+- id: mqtt_rfid_tag2
+  alias: Mqtt RFID Music Player TAG2
+  trigger:
+  - payload: '1228851232'
+    platform: mqtt
+    topic: /technight/Interface/PlayBox
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
+  action:
+  - data: {}
+    service: script.mqtt_rfid_player_tag2_test0
+  - data: {}
+    service: script.mqtt_rfid_player_tag2_test1
+- id: mqtt_rfid_player_pause
+  alias: Mqtt RFID Music Player Pause
+  trigger:
+  - payload: '1'
+    platform: mqtt
+    topic: /technight/Interface/PlayBox
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
+  action:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_pause
+- id: '1545503941964'
+  alias: Mqtt RFID Music Player Button
+  trigger:
+  - payload: 'ON'
+    platform: mqtt
+    topic: /technight/Interface/PlayBox/button
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
+  action:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_next_track

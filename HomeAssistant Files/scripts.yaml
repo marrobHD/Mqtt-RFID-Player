@@ -1,0 +1,107 @@
+mqtt_rfid_player_tag1_test0:
+  alias: Mqtt RFID Music Player TAG1 play check
+  sequence:
+  - below: '1'
+    condition: numeric_state
+    entity_id: input_number.musikbox_rfid_resume
+  - service: script.mqtt_rfid_player_tag1_play
+mqtt_rfid_player_tag1_test1:
+  alias: Mqtt RFID Music Player TAG1 resume check
+  sequence:
+  - above: '0'
+    condition: numeric_state
+    entity_id: input_number.musikbox_rfid_resume
+  - service: script.mqtt_rfid_player_tag1_resume
+mqtt_rfid_player_tag1_resume:
+  alias: Mqtt RFID Music Player TAG1 resume
+  sequence:
+  - data:
+      entity_id: media_player.spotify
+    service: media_player.media_play
+mqtt_rfid_player_tag1_play:
+  alias: Mqtt RFID Music Player TAG1 play
+  sequence:
+  - data:
+      entity_id: media_player.spotify
+      source: Mein Zimmer
+    service: media_player.select_source
+  - data:
+      entity_id: media_player.marlon_zimmer
+      volume_level: '0.2'
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.spotify
+      media_content_id: spotify:user:spotify:playlist:37i9dQZF1DX7ZUug1ANKRP
+      media_content_type: playlist
+    service: media_player.play_media
+  - data:
+      entity_id: media_player.spotify
+      shuffle: 'false'
+    service: media_player.shuffle_set
+  - data:
+      entity_id: input_number.musikbox_rfid_resume
+      value: '1'
+    service: input_number.set_value
+mqtt_rfid_player_tag2_test0:
+  alias: Mqtt RFID Music Player TAG2 play check
+  sequence:
+  - below: '1'
+    condition: numeric_state
+    entity_id: input_number.musikbox_rfid_resume
+  - service: script.mqtt_rfid_player_tag2_play
+mqtt_rfid_player_tag2_test1:
+  alias: Mqtt RFID Music Player TAG2 resume check
+  sequence:
+  - above: '0'
+    condition: numeric_state
+    entity_id: input_number.musikbox_rfid_resume
+  - service: script.mqtt_rfid_player_tag2_resume
+mqtt_rfid_player_tag2_resume:
+  alias: Mqtt RFID Music Player TAG2 resume
+  sequence:
+  - data:
+      entity_id: media_player.spotify
+    service: media_player.media_play
+mqtt_rfid_player_tag2_play:
+  alias: Mqtt RFID Music Player TAG2 play
+  sequence:
+  - data:
+      entity_id: media_player.spotify
+      source: Mein Zimmer
+    service: media_player.select_source
+  - data:
+      entity_id: media_player.marlon_zimmer
+      volume_level: '0.2'
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.spotify
+      media_content_id: spotify:user:spotify:playlist:37i9dQZF1DXbraCN8mShma
+      media_content_type: playlist
+    service: media_player.play_media
+  - data:
+      entity_id: media_player.spotify
+      shuffle: 'false'
+    service: media_player.shuffle_set
+  - data:
+      entity_id: input_number.musikbox_rfid_resume
+      value: '1'
+    service: input_number.set_value
+mqtt_rfid_player_next_track:
+  alias: MqTT RFID Music Player Next Track
+  sequence:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_next_track
+mqtt_rfid_player_pause:
+  alias: Mqtt RFID Music Player Pause
+  sequence:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_pause
+mqtt_rfid_player_reset:
+  alias: Mqtt RFID Music Player Reset
+  sequence:
+  - data:
+      entity_id: input_number.musikbox_rfid_resume
+      value: '0'
+    service: input_number.set_value

@@ -1,0 +1,5 @@
+musikbox_rfid:
+  name: "Musikbox"
+  options:
+   - "aktiviert"
+   - "deaktiviert"
