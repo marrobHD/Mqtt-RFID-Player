@@ -2,23 +2,7 @@
 #include <SPI.h>
 #include <MFRC522.h>
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <PubSubClient.h>
 
-#define SS_PIN D8
-#define RST_PIN D1
-
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-unsigned long cardId = 0;
-
-WiFiClient net;
-PubSubClient client(net);
-
-const char* mqtt_server = "technight.duckdns.org";
-const char* ssid = "FRITZ!Box 6490 Cable_plus";
-const char* password = "010166Hamburg";
-
-void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
@@ -34,13 +18,7 @@ void reconnect() {
     WiFi.begin(ssid, password);
   }
 
-  while (!client.connected()) {
-    String clientId = "NodeMCUClient-";
-    clientId += String(random(0xffff), HEX);
-
-    if (!client.connect(clientId.c_str(), "homeassistant-1", "t4KG95TT89pLSVSbkk")) {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
+  while (!client.connected())
       Serial.println(" try again in 5 seconds");
 
       delay(5000);
