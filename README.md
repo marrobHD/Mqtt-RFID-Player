@@ -11,8 +11,8 @@ With the MqTT RFID Music Player you can play music(Spotify) with an RFID tag.
 https://github.com/marrobHD/Mqtt-RFID-Player/releases
 ```
 
-2. Copy the automations.yaml text into your automations.
+2. Copy the HomeAssistant Files\automations.yaml text into your automations.
 
-2. Copy the scripts.yaml text into your scripts.
+2. Copy the HomeAssistant Files\scripts.yaml text into your scripts.
 
 3. Restart homeassistant and have fun 🤖
