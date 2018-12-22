@@ -14,12 +14,12 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 unsigned long cardId = 0;
 
 
-const char* ssid = "FRITZ!Box 6490 Cable_plus";
-const char* password = "010166Hamburg";
+const char* ssid = "wifissid";
+const char* password = "YourWIFIpassword";
 
-const char* mqtt_server = "technight.duckdns.org";
-const char* mqtt_username ="homeassistant-1";
-const char* mqtt_password = "t4KG95TT89pLSVSbkk";
+const char* mqtt_server = "mqttserver";
+const char* mqtt_username ="mqttusername";
+const char* mqtt_password = "mqttpassword";
 const char* clientID = "MusikBox";
 
 // constants won't change. They're used here to set pin numbers:
