@@ -14,28 +14,22 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 unsigned long cardId = 0;
 
 
-const char* ssid = "wifissid";
-const char* password = "YourWIFIpassword";
+const char* ssid = "FRITZ!Box 6490 Cable_plus";
+const char* password = "010166Hamburg";
 
-const char* mqtt_server = "mqttserver";
-const char* mqtt_username ="mqttusername";
-const char* mqtt_password = "mqttpassword";
+const char* mqtt_server = "technight.duckdns.org";
+const char* mqtt_username ="homeassistant-1";
+const char* mqtt_password = "t4KG95TT89pLSVSbkk";
 const char* clientID = "MusikBox";
 
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin = 2;     // the number of the pushbutton pin
-const int button2Pin = D3;     // the number of the pushbutton2 pin
 //const int ledPin =  13;      // the number of the LED pin
 
 // Variables will change:
 int buttonPushCounter = 0;   // counter for the number of button presses
 int buttonState = 0;         // current state of the button
 int lastButtonState = 1;     // previous state of the button
-
-// Variables will change:
-int button2PushCounter = 0;   // counter for the number of button presses
-int button2State = 0;         // current state of the button
-int lastButton2State = 1;     // previous state of the button
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -105,7 +99,7 @@ void reconnect() {
     if (client.connect(clientID, mqtt_username, mqtt_password)) {
       Serial.println("Connected");
       // ... and subscribe to topic
-      client.subscribe("/SmartHome/Interface/PlayBox/button");
+      client.subscribe("/technight/Interface/PlayBox/button");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -139,13 +133,13 @@ void loop() {
   if (buttonState != lastButtonState) {
     // if the state has changed, increment the counter
     if (buttonState == HIGH) {
-      client.publish("/SmartHome/Interface/PlayBox/button", "OFF"); //
+      client.publish("/technight/Interface/PlayBox/button", "OFF"); //
       // if the current state is HIGH then the button
       // went from off to on:
     } else {
       // if the current state is LOW then the button
       // went from on to off:
-      client.publish("/SmartHome/Interface/PlayBox/button", "ON"); //
+      client.publish("/technight/Interface/PlayBox/button", "ON"); //
     }
     // Delay a little bit to avoid bouncing
     delay(100);
@@ -153,29 +147,6 @@ void loop() {
   // save the current state as the last state,
   //for next time through the loop
   lastButtonState = buttonState;
-
-  // read the pushbutton input pin:
-  button2State = digitalRead(button2Pin);
-
-  // compare the buttonState to its previous state
-  if (button2State != lastButton2State) {
-    // if the state has changed, increment the counter
-    if (button2State == HIGH) {
-      client.publish("/SmartHome/Interface/PlayBox/button2", "OFF"); //
-      // if the current state is HIGH then the button
-      // went from off to on:
-    } else {
-      // if the current state is LOW then the button
-      // went from on to off:
-      client.publish("/SmartHome/Interface/PlayBox/button2", "ON"); //
-    }
-    // Delay a little bit to avoid bouncing
-    delay(100);
-  }
-  // save the current state as the last state,
-  //for next time through the loop
-  lastButton2State = button2State;
-
 
   {
     if (!client.connected()) {
@@ -193,12 +164,12 @@ void loop() {
 
   cardId = getCardId();
 
-  Serial.print("Message arrived [/SmartHome/Interface/PlayBox] ");
+  Serial.print("Message arrived [/technight/Interface/PlayBox] ");
   Serial.println(cardId);
 
   char buffer[10];
   sprintf(buffer, "%lu", cardId);
-  client.publish("/SmartHome/Interface/PlayBox", buffer);
+  client.publish("/technight/Interface/PlayBox", buffer);
 
   uint8_t control = 0x00;
 
@@ -225,8 +196,8 @@ void loop() {
 
   reconnect();
 
-  Serial.println("Message arrived [/SmartHome/Interface/PlayBox] 1");
-  client.publish("/SmartHome/Interface/PlayBox", "1");
+  Serial.println("Message arrived [/technight/Interface/PlayBox] 1");
+  client.publish("/technight/Interface/PlayBox", "1");
   delay(500);
 
   mfrc522.PICC_HaltA();
