@@ -6,11 +6,37 @@ With the MqTT RFID Music Player you can play music(Spotify) with an RFID tag.
 
 ## Installation
 
-1. Download this Repository, import it in Platformio and click on upload(ALT+CMD+U)
+1. Download this Repository, import it in Platformio, change the mqtt and wifi settings and click on upload(ALT+CMD+U)
 ```txt
 https://github.com/marrobHD/Mqtt-RFID-Player/releases
 ```
+2. Open Files\EspEasy\FlashESP8266 select your COM port and sonoff.bin and click flash
 
+3. Open Files\EspEasy\Termite.exe to use it to configure your devboard. Replace your WIFI and MqTT Info, paste and hit enter
+```txt
+Backlog ssid1 YOURSSID; password1 YOURPASSWORD; MqttHost YOURMQTT; MqttUser YOURMQTTTUSER; MqttPassword YOURMQTTPASSWORD; MqttPort 1883
+```
+4. Conntect 3 Buttons eg: Wire1 D1 Wire2 GND. Setup your buttos in Tasmota.
+picture tasmota
+5. Setup this rules in Console. Hit after paste "Enter".
+```txt
+rule1 on switch1#state=3 do publish stat/button_1/TYPE {"type":hold_2sec} endon on switch1#state=2 do publish stat/button_1/TYPE {"type":single_press} endon on switch1#state=2 do event setvar1=+1 endon on event#setvar1 do counter %value% endon on event#getvar1 do counter endon on event#setvar1 do publish stat/button_1/log %value% endon on switch1#state=2 do event toggling1=%var1% endon on event#toggling1<1 do event setvar1=0 endon on event#toggling1>0 do event setvar1=0 endon
+```
+```txt
+rule2 on switch2#state=3 do publish stat/button_2/TYPE {"type":hold_2sec} endon on switch2#state=2 do publish stat/button_2/TYPE {"type":single_press} endon on switch2#state=2 do event setvar2=+1 endon on event#setvar2 do counter2 %value% endon on event#getvar2 do counter2 endon on event#setvar2 do publish stat/button_2/log %value% endon on switch2#state=2 do event toggling2=%var2% endon on event#toggling2<1 do event setvar2=0 endon on event#toggling2>0 do event setvar2=0 endon
+```
+```txt
+rule3 on switch3#state=3 do publish stat/button_3/TYPE {"type":hold_2sec} endon on switch3#state=2 do publish stat/button_3/TYPE {"type":single_press} endon on switch3#state=2 do event setvar3=+1 endon on event#setvar3 do counter3 %value% endon on event#getvar3 do counter3 endon on event#setvar3 do publish stat/button_3/log %value% endon on switch3#state=2 do event toggling3=%var3% endon on event#toggling3<1 do event setvar3=0 endon on event#toggling3>0 do event setvar3=0 endon
+```
+```txt
+rule1 on
+```
+```txt
+rule2 on
+```
+```txt
+rule3 on
+```
 2. Copy the "Files\HomeAssistant\automations.yaml" text into your automations.
 
 3. Copy the "Files\HomeAssistant\scripts.yaml" text into your scripts.
@@ -23,9 +49,10 @@ https://github.com/marrobHD/Mqtt-RFID-Player/releases
 
 ⮡ Lovelace yaml mode: paste it easy in your ui-lovelace.yaml
 
+![What is this](Files/Tasmota_config.png)
 ⮡ Lovelace UI edit mode:
 
-![](lovelace_edit_ui.gif)
+![](Files/lovelace_edit_ui.gif)
 ```txt
 - input_select.musikbox_rfid
 - entity: automation.mqtt_rfid_music_player_tag1
