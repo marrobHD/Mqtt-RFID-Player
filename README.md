@@ -11,23 +11,23 @@ With the MqTT RFID Music Player you can play music(Spotify) with an RFID tag.
 https://github.com/marrobHD/Mqtt-RFID-Player/releases
 ```
 
-2. Copy the "HomeAssistant Files\automations.yaml" text into your automations.
+2. Copy the "Files\HomeAssistant\automations.yaml" text into your automations.
 
-3. Copy the "HomeAssistant Files\scripts.yaml" text into your scripts.
+3. Copy the "Files\HomeAssistant\scripts.yaml" text into your scripts.
 
-4. Copy the "HomeAssistant Files\input_number.yaml" text into your input_number.
+4. Copy the "Files\HomeAssistant\input_number.yaml" text into your input_number.
 
-5. Copy the "HomeAssistant Files\input_select.yaml" text into your input_select.
+5. Copy the "Files\HomeAssistant\input_select.yaml" text into your input_select.
 
 6. paste this into your lovelace configuration file:
 
 ⮡ Lovelace yaml mode: paste it easy in your ui-lovelace.yaml
 
-⮡ Lovelace UI edit mode: 
+⮡ Lovelace UI edit mode:
 
 ![](lovelace_edit_ui.gif)
 ```txt
-- input_select.musikbox_rfid 
+- input_select.musikbox_rfid
 - entity: automation.mqtt_rfid_music_player_tag1
   name: Tag 1
   tap_action: toggle
@@ -50,7 +50,7 @@ https://github.com/marrobHD/Mqtt-RFID-Player/releases
   name: Led turn off
   tap_action: toggle
 - entity: automation.mqtt_rfid_music_player_button1_hold_2sec
-  name: Button 1 2sec 
+  name: Button 1 2sec
   tap_action: toggle
 - entity: automation.mqtt_rfid_music_player_button2_hold_2sec
   name: Button 2 2sec
