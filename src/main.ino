@@ -9,7 +9,6 @@
 
 #define SS_PIN D8
 #define RST_PIN D1
-
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 unsigned long cardId = 0;
 
@@ -22,6 +21,7 @@ const char* mqtt_username ="homeassistant-1";
 const char* mqtt_password = "t4KG95TT89pLSVSbkk";
 const char* clientID = "MusikBox";
 
+
 // constants won't change. They're used here to set pin numbers:
 const int buttonPin = 2;     // the number of the pushbutton pin
 //const int ledPin =  13;      // the number of the LED pin
@@ -31,23 +31,77 @@ int buttonPushCounter = 0;   // counter for the number of button presses
 int buttonState = 0;         // current state of the button
 int lastButtonState = 1;     // previous state of the button
 
+// RGB LED pins:
+int redPin = 16;    // RED GPIO pin
+int greenPin = 0;   // GREEN GPIO pin
+int bluePin = 4;    // BLUE GPIO pin
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-  for (int i = 0; i < length; i++) {
+void setStatusColor(uint8_t r, uint8_t g, uint8_t b){
+  analogWrite(redPin, r);
+  analogWrite(greenPin, g);
+  analogWrite(bluePin, b);
+}
+
+
+void callback(char *topic, byte *payload, unsigned int length) {
+
+    Serial.print("Message arrived [");
+    Serial.print(topic);
+    Serial.print("] ");
+    for (int i = 0; i < length; i++) {
+      char receivedChar = (char)payload[i];
+      Serial.print(receivedChar);
+    for (int i = 0; i < length; i++) {
     char receivedChar = (char)payload[i];
     Serial.print(receivedChar);
     if (receivedChar == '0')
       digitalWrite(LED_BUILTIN, HIGH);
     if (receivedChar == '1')
       digitalWrite(LED_BUILTIN, LOW);
+  // Payload: 000,000,000
+  // Convert payload to a string
+  payload[length] = '\0';
+  String colors = String((char *)payload);
+
+  // Extract R, G, B from the string
+  uint8_t r = colors.substring(0, 3).toInt();
+  uint8_t g = colors.substring(4, 7).toInt();
+  uint8_t b = colors.substring(8, 11).toInt();
+
+  // Pass r, g, b to setStatusColor function
+  setStatusColor(r, g, b);
+
+    }
+    Serial.println();
   }
-  Serial.println();
 }
+
+
+// void callback(char* topic, byte* payload, unsigned int length) {
+//
+//   Serial.print("Message arrived [");
+//   Serial.print(topic);
+//   Serial.print("] ");
+//   for (int i = 0; i < length; i++) {
+//     char receivedChar = (char)payload[i];
+//     Serial.print(receivedChar);
+//     if (receivedChar == '0')
+//       digitalWrite(LED_BUILTIN, HIGH);
+//     if (receivedChar == '1')
+//       digitalWrite(LED_BUILTIN, LOW);
+//     if (receivedChar == '2')
+//       setStatusColor(255, 000, 000);
+//     if (receivedChar == '3')
+//       setStatusColor(000, 255, 000);
+//     if (receivedChar == '4')
+//       setStatusColor(000, 000, 255);
+//
+//   }
+//   Serial.println();
+// }
 
 
 void setup()
@@ -62,6 +116,17 @@ void setup()
     pinMode(buttonPin, INPUT);
     // initialize the LED as an output:
     pinMode(LED_BUILTIN, OUTPUT);
+    // initialize led status communication:
+    pinMode(redPin, OUTPUT);
+    pinMode(greenPin, OUTPUT);
+    pinMode(bluePin, OUTPUT);
+    digitalWrite(redPin,HIGH);
+    delay(300);
+    digitalWrite(redPin,LOW);
+    delay(300);
+    digitalWrite(redPin,HIGH);
+    delay(300);
+    digitalWrite(redPin,LOW);
     // initialize serial communication:
     Serial.begin(9600);
   }
@@ -81,11 +146,11 @@ void setup()
   }
   Serial.println("");
   Serial.println("WiFi connected");
-  //Serial.begin(9600);
+  // Serial.begin(9600);
   // Start the server
   // server.begin();
   // Serial.println("Server started");
-  //Serial.begin(9600);
+  // Serial.begin(9600);
   // Print the IP address
   Serial.print("Local IP: ");
   Serial.println(WiFi.localIP());
@@ -98,14 +163,16 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientID, mqtt_username, mqtt_password)) {
       Serial.println("Connected");
+      setStatusColor(57, 149, 60);  // green
       // ... and subscribe to topic
-      client.subscribe("/technight/Interface/PlayBox/button");
+      client.subscribe("/technight/Interface/PlayBox/color");
     } else {
       Serial.print("failed, rc=");
+      digitalWrite(redPin,HIGH);
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
       // Wait 5 seconds before retrying
-      delay(5000);
+      delay(3000);
     }
   }
 }
@@ -128,6 +195,28 @@ void loop() {
 
   // read the pushbutton input pin:
   buttonState = digitalRead(buttonPin);
+
+  // setStatusColor(255, 0, 0);  // red
+  // Serial.println("ROT");
+  // delay(2000);
+  // setStatusColor(255, 0, 255);  // red
+  // Serial.println("LILA");
+  // delay(2000);
+  // setStatusColor(0, 255, 0);  // green
+  // Serial.println("GRÜN");
+  // delay(2000);
+  // setStatusColor(0, 0, 255);  // blue
+  // Serial.println("BLAU");
+  // delay(2000);
+  // setStatusColor(255, 255, 0);  // yellow
+  // Serial.println("GELB");
+  // delay(2000);
+  // setStatusColor(80, 0, 80);  // purple
+  // Serial.println("PURPLE");
+  // delay(2000);
+  // setStatusColor(255, 50, 0);  // Orange
+  // Serial.println("ORANGE");
+  // delay(2000);
 
   // compare the buttonState to its previous state
   if (buttonState != lastButtonState) {
@@ -164,12 +253,17 @@ void loop() {
 
   cardId = getCardId();
 
+  digitalWrite(greenPin,LOW);
+  digitalWrite(bluePin,HIGH);
   Serial.print("Message arrived [/technight/Interface/PlayBox] ");
   Serial.println(cardId);
 
   char buffer[10];
   sprintf(buffer, "%lu", cardId);
   client.publish("/technight/Interface/PlayBox", buffer);
+  delay(200);
+  digitalWrite(bluePin,LOW);
+  setStatusColor(57, 149, 60);  // green
 
   uint8_t control = 0x00;
 

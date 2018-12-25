@@ -3,9 +3,10 @@
 title: Home
 views:
   - id: 0  # Automatically created id
-    title: Schlafzimmer
+    title: MusikBox
+    icon: mdi:home
     cards:
-      - id: musicbox entry  # Automatically created id
+      - id: 03454cafa26e47afb507ffdc1dde837a  # Automatically created id
         type: entities
         title: MusikBox
         show_header_toggle: true
@@ -21,6 +22,13 @@ views:
             name: Tag 1 abspielen
           - entity: script.mqtt_rfid_player_tag2_play
             name: Tag 2 abspielen
+            tap_action: toggle
+          - entity: automation.button_1_single_press
+            name: Zurück
+            tap_action: toggle
+          - entity: automation.button_1_hold_2sec
+            name: belegbar
+            tap_action: toggle
           - entity: script.mqtt_rfid_player_next_track
             name: Nächster Track
           - entity: script.mqtt_rfid_player_pause

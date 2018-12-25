@@ -1,3 +1,105 @@
+- id: '1541502172425'
+  alias: Mqtt RFID Music Player zurück
+  trigger:
+  - payload: '{"type":single_press}'
+    platform: mqtt
+    topic: stat/button_1/TYPE
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_previous_track
+- id: button_1_double_press
+  alias: 'Button #1 double press'
+  trigger:
+  - payload: '{"Counter1":2}'
+    platform: mqtt
+    topic: stat/button_1/RESULT
+  condition:
+  - condition: state
+    entity_id: input_select.buttons
+    state: aktiviert
+  action:
+  - data:
+      entity_id: ' switch.marlon_deckenlampe'
+    service: switch.toggle
+- id: button_1_hold
+  alias: Mqtt RFID Music Player button1 hold 2sec
+  trigger:
+  - payload: '{"type":hold_2sec}'
+    platform: mqtt
+    topic: stat/button_1/TYPE
+  condition: []
+  action:
+  - data:
+      entity_id: script.marlon_schloss_switch
+    service: script.turn_on
+- id: button_2_skip
+  alias: Mqtt RFID Music Player überspringen
+  trigger:
+  - payload: '{"type":single_press}'
+    platform: mqtt
+    topic: stat/button_2/TYPE
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.marlon_zimmer
+    service: media_player.media_next_track
+- id: button_2_hold
+  alias: Mqtt RFID Music Player button2 hold 2sec
+  trigger:
+  - payload: '{"type":hold_2sec}'
+    platform: mqtt
+    topic: stat/button_2/TYPE
+  condition: []
+  action:
+  - data:
+      entity_id: script.marlon_schloss_switch
+    service: script.turn_on
+- id: button_3_led
+  alias: Mqtt RFID Music Player LED ausschaten
+  trigger:
+  - payload: '{"type":single_press}'
+    platform: mqtt
+    topic: stat/button_3/TYPE
+  condition: []
+  action:
+  - data:
+      payload: '0'
+      topic: /technight/Interface/PlayBox/color
+    service: mqtt.publish
+- id: button_3_hold
+  alias: Mqtt RFID Music Player button3 help
+  trigger:
+  - payload: '{"type":hold_2sec}'
+    platform: mqtt
+    topic: stat/button_3/TYPE
+  condition: []
+  action:
+  - data:
+      message: Help button activated plese help the MusicBox owner
+      title: MusicBox help
+    service: persistent_notification.create
+  - data:
+      message: Help button activated plese help the MusicBox owner
+      target:
+      - MarlonPC Firefox
+      - Marlon Crome
+      - MarlonPhone
+      title: MusicBox help
+    service: notify.html
+- id: '1541594331855'
+  alias: Auto Backup
+  trigger:
+  - at: '1:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      addon: 7be23ff5_dropbox_sync
+      input:
+        command: upload
+    service: hassio.addon_stdin
 - id: mqtt_rfid_rst
   alias: Mqtt RFID Music Player RST
   trigger:
@@ -58,7 +160,7 @@
       entity_id: media_player.marlon_zimmer
     service: media_player.media_pause
 - id: '1545503941964'
-  alias: Mqtt RFID Music Player Button
+  alias: Mqtt RFID Music Player next track
   trigger:
   - payload: 'ON'
     platform: mqtt
@@ -71,3 +173,15 @@
   - data:
       entity_id: media_player.marlon_zimmer
     service: media_player.media_next_track
+- id: hduihiuwfhiuwhf
+  alias: TEST HTML5 NOTIFY Triggger
+- alias: HTML5 push notification action button clicked
+  trigger:
+    platform: event
+    event_type: html5_notification.clicked
+    event_data:
+      action: open_door
+  action:
+  - data:
+      entity_id: switch.marlon_deckenlampe
+    service: switch.toggle

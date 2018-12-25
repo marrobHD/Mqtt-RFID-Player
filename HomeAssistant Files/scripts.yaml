@@ -105,3 +105,22 @@ mqtt_rfid_player_reset:
       entity_id: input_number.musikbox_rfid_resume
       value: '0'
     service: input_number.set_value
+html5_notify:
+  alias: HTML NOTIFY
+  sequence:
+  - data:
+      message: SKJHIHIHih
+      data:
+        actions:
+          - action: open
+            icon: "http://www.neus42.com/neus42/wp-content/uploads/2016/02/Micro_SD2.png"
+            title: Open Home Assistant
+          - action: open_door
+            title: Open door
+    service: notify.html
+  - data:
+      title: Front door
+      message: The front door is open
+      data:
+      url: https://google.com
+    service: notify.html
