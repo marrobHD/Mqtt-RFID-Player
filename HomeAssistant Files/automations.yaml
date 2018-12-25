@@ -4,7 +4,10 @@
   - payload: '{"type":single_press}'
     platform: mqtt
     topic: stat/button_1/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       entity_id: media_player.marlon_zimmer
@@ -29,7 +32,10 @@
   - payload: '{"type":hold_2sec}'
     platform: mqtt
     topic: stat/button_1/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       entity_id: script.marlon_schloss_switch
@@ -40,7 +46,10 @@
   - payload: '{"type":single_press}'
     platform: mqtt
     topic: stat/button_2/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       entity_id: media_player.marlon_zimmer
@@ -51,7 +60,10 @@
   - payload: '{"type":hold_2sec}'
     platform: mqtt
     topic: stat/button_2/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       entity_id: script.marlon_schloss_switch
@@ -62,7 +74,10 @@
   - payload: '{"type":single_press}'
     platform: mqtt
     topic: stat/button_3/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       payload: '0'
@@ -74,7 +89,10 @@
   - payload: '{"type":hold_2sec}'
     platform: mqtt
     topic: stat/button_3/TYPE
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_select.musikbox_rfid
+    state: aktiviert
   action:
   - data:
       message: Help button activated plese help the MusicBox owner
@@ -88,18 +106,6 @@
       - MarlonPhone
       title: MusicBox help
     service: notify.html
-- id: '1541594331855'
-  alias: Auto Backup
-  trigger:
-  - at: '1:00'
-    platform: time
-  condition: []
-  action:
-  - data:
-      addon: 7be23ff5_dropbox_sync
-      input:
-        command: upload
-    service: hassio.addon_stdin
 - id: mqtt_rfid_rst
   alias: Mqtt RFID Music Player RST
   trigger:
@@ -173,15 +179,3 @@
   - data:
       entity_id: media_player.marlon_zimmer
     service: media_player.media_next_track
-- id: hduihiuwfhiuwhf
-  alias: TEST HTML5 NOTIFY Triggger
-- alias: HTML5 push notification action button clicked
-  trigger:
-    platform: event
-    event_type: html5_notification.clicked
-    event_data:
-      action: open_door
-  action:
-  - data:
-      entity_id: switch.marlon_deckenlampe
-    service: switch.toggle

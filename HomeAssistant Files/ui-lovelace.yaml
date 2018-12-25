@@ -18,20 +18,45 @@ views:
           - entity: automation.mqtt_rfid_music_player_tag2
             name: Tag 2
             tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_zuruck
+            name: Zurück
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_pause
+            name: Pause
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_uberspringen
+            name: Skip
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_button3_help
+            name: Help Button
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_led_ausschaten
+            name: Led turn off
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_button1_hold_2sec
+            name: Button 1 2sec 
+            tap_action: toggle
+          - entity: automation.mqtt_rfid_music_player_button2_hold_2sec
+            name: Button 2 2sec
+            tap_action: toggle
+          - type: divider
+            style:
+              height: 1px
+              width: 80%
+              margin-left: auto
+              margin-right: auto
+              background: '#0000FF'
           - entity: script.mqtt_rfid_player_tag1_play
             name: Tag 1 abspielen
           - entity: script.mqtt_rfid_player_tag2_play
             name: Tag 2 abspielen
-            tap_action: toggle
-          - entity: automation.button_1_single_press
-            name: Zurück
-            tap_action: toggle
-          - entity: automation.button_1_hold_2sec
-            name: belegbar
-            tap_action: toggle
+          - entity: script.mqtt_rfid_player_back
+            name: Back
           - entity: script.mqtt_rfid_player_next_track
             name: Nächster Track
           - entity: script.mqtt_rfid_player_pause
             name: Pause
+          - entity: script.mqtt_rfid_player_led_off
+            name: Led off
           - entity: script.mqtt_rfid_player_reset
             name: Reset resume
