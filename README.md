@@ -17,7 +17,7 @@ https://github.com/marrobHD/Mqtt-RFID-Player/releases
 Backlog ssid1 YOURSSID; password1 YOURPASSWORD; MqttHost YOURMQTT; MqttUser YOURMQTTTUSER; MqttPassword YOURMQTTPASSWORD; MqttPort 1883
 ```
 4. Conntect 3 Buttons eg: Wire1 D1 Wire2 GND. Setup your buttos in Tasmota.
-![What is this](Files/Tasmota_config.png)
+![](Files/Tasmota_config.png)
 5. Setup this rules in Console. Hit after paste "Enter".
 ```txt
 rule1 on switch1#state=3 do publish stat/button_1/TYPE {"type":hold_2sec} endon on switch1#state=2 do publish stat/button_1/TYPE {"type":single_press} endon on switch1#state=2 do event setvar1=+1 endon on event#setvar1 do counter %value% endon on event#getvar1 do counter endon on event#setvar1 do publish stat/button_1/log %value% endon on switch1#state=2 do event toggling1=%var1% endon on event#toggling1<1 do event setvar1=0 endon on event#toggling1>0 do event setvar1=0 endon
