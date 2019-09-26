@@ -14,11 +14,11 @@ unsigned long cardId = 0;
 
 
 const char* ssid = "FRITZ!Box 6490 Cable_plus";
-const char* password = "010166Hamburg";
+const char* password = "";
 
-const char* mqtt_server = "technight.duckdns.org";
-const char* mqtt_username ="homeassistant-1";
-const char* mqtt_password = "t4KG95TT89pLSVSbkk";
+const char* mqtt_server = "";
+const char* mqtt_username "";
+const char* mqtt_password = "";
 const char* clientID = "MusikBox";
 
 
